@@ -35,7 +35,8 @@ var BoardComponent = /** @class */ (function (_super) {
         return _this;
     }
     BoardComponent.prototype.rowSubBlockToBlock = function (row, subBlock) {
-        return (row - row % 3) / 3 + subBlock;
+        console.log('row', row, subBlock);
+        return (row - row % 3) + subBlock;
     };
     BoardComponent.prototype.chunkify = function (size, list) {
         return list.length > 0

@@ -41,7 +41,8 @@ export default class BoardComponent extends Vue {
   ];
 
   rowSubBlockToBlock(row: number, subBlock: number): number {
-    return (row - row%3)/3 + subBlock;
+    console.log('row', row, subBlock);
+    return (row - row%3) + subBlock;
   }
 
   chunkify<T>(size: number, list: T[]): T[][] {

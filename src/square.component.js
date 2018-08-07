@@ -32,7 +32,9 @@ export { Square };
 var SquareComponent = /** @class */ (function (_super) {
     __extends(SquareComponent, _super);
     function SquareComponent() {
-        return _super.call(this) || this;
+        var _this = _super.call(this) || this;
+        _this.index = (_this.row * 9) + _this.col;
+        return _this;
     }
     SquareComponent = __decorate([
         Component({
@@ -50,7 +52,7 @@ var SquareComponent = /** @class */ (function (_super) {
                     required: true
                 }
             },
-            template: "\n    <div class=\"input-field col s4\">\n      <input id=\"\" type=\"text\">\n      <label for=\"first_name\">R {{row}}, C {{col}}, B {{block}}</label>\n    </div>\n  "
+            template: "\n    <div class=\"input-field col s4\">\n      <input id=\"\" type=\"text\">\n      <label for=\"first_name\">{{index}}</label>\n    </div>\n  "
         }),
         __metadata("design:paramtypes", [])
     ], SquareComponent);
