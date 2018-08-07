@@ -15,8 +15,9 @@
   "dependencies": {
     "core-js": "^2.5.1",
     "hammerjs": "^2.0.8",
-    "materialize": "^1.0.0",
     "jquery": "^3.2.1",
+    "materialize": "^1.0.0",
+    "npm": "^6.3.0",
     "reflect-metadata": "^0.1.10",
     "vue": "^2.4.4",
     "vue-class-component": "^5.0.2",
