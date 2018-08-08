@@ -21,7 +21,7 @@
     "reflect-metadata": "^0.1.10",
     "vue": "^2.4.4",
     "vue-class-component": "^5.0.2",
-    "vuex": "^2.4.1",
+    "vuex": "^3.0.1",
     "vuex-typescript": "^0.1.0",
     "whatwg-fetch": "^2.0.3",
     "zone.js": "^0.8.17"
