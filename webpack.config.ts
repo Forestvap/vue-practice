@@ -30,8 +30,11 @@ export const config: webpack.Configuration = {
       'vue',
       'vuex'
     ],
-    // styles: './scss/main.scss',
-    app: './main.ts'
+    styles: [
+      './styles.css',
+      './materialize/css/materialize.min.css'
+    ],
+    app: './app.ts'
   },
 
   output: {

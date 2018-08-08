@@ -19,7 +19,7 @@
     "no-conditional-assignment": true,
     "no-construct": true,
     "no-duplicate-variable": true,
-    "no-invalid-this": true,
+    "no-invalid-this": false,
     "no-shadowed-variable": true,
     "no-trailing-whitespace": true,
     "no-unreachable": true,

@@ -1,12 +1,9 @@
-// import Vue from 'vue';
-import { mapState } from 'vuex';
-// import Component from 'vue-class-component';
-import SquareComponent from './square.component';
-import { State, store } from './store';
+import * as Vue from 'vue';
+import { CellComponent } from './cell.component';
 
-export default {
+export const BoardComponent: Vue.ComponentOptions<any> = {
   components: {
-    square: SquareComponent
+    cell: CellComponent
   },
 
   data() {
@@ -27,38 +24,23 @@ export default {
     };
   },
 
-  computed: {
-    ...mapState<State>({
-      x: state => state.x,
-      y: state => state.y
-    })
-  },
-
   template: `
-    <form class="row">
-      <div class="col s12" @click="move()">
-        X {{x}}
-        Y {{y}}
-      </div>
-      <div v-for="(row, rowIndex) in chunkify(9, board)" class="row">
+    <div class="container">
+      <div v-for="(row, rowIndex) in chunkify(9, board)" class="row my-0 py-0">
         <div v-for="(block, subBlockIndex) in chunkify(3, row)" class="col s4">
-          <div v-for="(square, squareIndex) in block">
-            <square
+          <div v-for="(cell, squareIndex) in block">
+            <cell
               :row="rowIndex"
               :col="(3 * subBlockIndex) + squareIndex"
-              :block="(rowIndex - rowIndex % 3) + subBlockIndex">
-            </square>
+              :nonet="(rowIndex - rowIndex % 3) + subBlockIndex">
+            </cell>
           </div>
         </div>
       </div>
-    </form>
+    </div>
   `,
 
   methods: {
-    move(x: number, y: number) {
-      store.commit('left');
-    },
-
     chunkify<T>(size: number, list: T[]): T[][] {
       return list.length > 0
         ? [list.slice(0, size), ...this.chunkify(size, list.slice(size))]
