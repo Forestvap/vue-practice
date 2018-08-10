@@ -6,13 +6,11 @@ export const CellComponent: Vue.ComponentOptions<any> = {
   props: {
     row: { type: Number, required: true },
     col: { type: Number, required: true },
-    nonet: { type: Number, required: true }
+    nonet: { type: Number, required: true },
+    locked: { type: Boolean, required: true },
+    value: { type: Number }
   },
-  data() {
-    return {
-      value: null
-    };
-  },
+
   computed: {
    ...mapState({
      selected(this: any, {cursor: {col, row}}) {
@@ -30,6 +28,7 @@ export const CellComponent: Vue.ComponentOptions<any> = {
     }),
     cellCssClasses() {
      return {
+       'locked': this.locked,
        'row-selected': this.rowSelected,
        'col-selected': this.colSelected,
        'nonet-selected': this.nonetSelected,
@@ -40,44 +39,28 @@ export const CellComponent: Vue.ComponentOptions<any> = {
      // console.log('row', this.row)
      //  console.log('col', this.col)
      //  console.log('index', this.row * 9 + this.col)
-      return this.row * 9 + this.col;
+      return (this.row * 9) + this.col;
     }
   },
   methods: {
-   ...mapMutations([
-     'left',
-     'right',
-     'up',
-     'down',
-     'setCursor'
-   ]),
+   ...mapMutations([ 'setCursor' ]),
     onCellClick() {
+     // this.$el.focus();
+     console.log(window['el'] = this.$el);
      this.$store.commit({
        type: 'setCursor',
        row: this.row,
        col: this.col
      });
-    },
-   onkeydown(event: KeyboardEvent) {
-     console.log('event', event)
-    if (![ 49, 50, 51, 52, 53, 54, 55, 56, 57 ].includes(event.keyCode)) {
-      return;
-      }
-    this.value =+ event.key;
     }
   },
   template: `
     <div
       :id="'cell-'+index"
       :class="cellCssClasses"
-      @click.prevent="onCellClick"
-      @keydown.left.prevent="left"
-      @keydown.right.prevent="right"
-      @keydown.up.prevent="up"
-      @keydown.prevent="onkeydown"
-      @keydown.down.prevent="down"
-      class="col s4 sudoku-cell">
-      {{value}}
+      @click="onCellClick"
+      class="sudoku-cell">
+      <span class="sudoku-cell__value">{{value}}</span>
     </div>
   `
 };
