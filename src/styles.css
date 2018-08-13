@@ -40,6 +40,7 @@
   padding: 0rem !important;
   margin: 0 !important;
   box-sizing: border-box;
+  position: relative;
   height: 5rem;
   z-index: 1;
   border: rgba(255, 255, 255, 0.2) 1px solid !important;
@@ -55,7 +56,7 @@
   padding: 0.1rem !important;
 }
 
-.sudoku-cell.selected {
+.sudoku-cell--selected {
   background-color: rgba(255, 255, 255, 0.8);
   border-radius: 25%;
   color: #333333;
@@ -63,7 +64,15 @@
   font-weight: 900 !important;
 }
 
-
+.sudoku-cell__guess {
+  position: absolute;
+  line-height: 1rem;
+  font-size: .2em !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
 
 .sudoku-cell:hover {
   cursor: pointer;
@@ -71,13 +80,12 @@
   transition: border .25s;
 }
 
-.sudoku-cell.col-selected,
-.sudoku-cell.nonet-selected,
-.sudoku-cell.row-selected {
+.sudoku-cell--col-selected,
+.sudoku-cell--nonet-selected,
+.sudoku-cell--row-selected {
   background-color: rgba(255, 255, 255, .2);
   border-radius: 25%;
 }
-
 
 .sudoku-cell__value {
   display: block;
@@ -90,7 +98,4 @@
   /*border-radius: 50%;*/
   /*transition: color 1s;*/
 
-}
-.sudoku-cell.selected .sudoku-cell__value {
-  /*border: rgba(0, 0, 0, 0.8) 1px solid !important;*/
 }

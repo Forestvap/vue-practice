@@ -1,6 +1,5 @@
-/* tslint:disable */
 import * as Vue from 'vue';
-import { mapMutations, mapState } from 'vuex';
+import { mapMutations, mapState, mapGetters } from 'vuex';
 
 export const CellComponent: Vue.ComponentOptions<any> = {
   props: {
@@ -26,27 +25,44 @@ export const CellComponent: Vue.ComponentOptions<any> = {
        return this.nonet === nonet;
      }
     }),
+    ...mapGetters({
+      possibleCellValueFinder: 'possibleCellValues'
+    }),
+
+    possibleCellValues() {
+      return this.possibleCellValueFinder(this);
+    },
+    hasImpossibleValue() {
+     return this.$store.getters.impossibleValues(this).includes(this.value);
+    },
     cellCssClasses() {
      return {
-       'locked': this.locked,
-       'row-selected': this.rowSelected,
-       'col-selected': this.colSelected,
-       'nonet-selected': this.nonetSelected,
-       'selected': this.selected
+       'sudoku-cell--locked': this.locked,
+       'sudoku-cell--row-selected': this.rowSelected,
+       'sudoku-cell--col-selected': this.colSelected,
+       'sudoku-cell--nonet-selected': this.nonetSelected,
+       'sudoku-cell--selected': this.selected,
+       'sudoku-cell--impossible': this.hasImpossibleValue
      };
+    },
+    filters: {
+      join<T>(list: T[], separator = ' '): string {
+        if (!Array.isArray(list)) {
+          throw new Error(`The "join" filter expects data to be an Array!`);
+        }
+        return list.join(separator);
+      }
     },
     index() {
      // console.log('row', this.row)
      //  console.log('col', this.col)
      //  console.log('index', this.row * 9 + this.col)
-      return (this.row * 9) + this.col;
+      return (<number>this.row * 9) + (<number>this.col);
     }
   },
   methods: {
    ...mapMutations([ 'setCursor' ]),
     onCellClick() {
-     // this.$el.focus();
-     console.log(window['el'] = this.$el);
      this.$store.commit({
        type: 'setCursor',
        row: this.row,
@@ -56,11 +72,11 @@ export const CellComponent: Vue.ComponentOptions<any> = {
   },
   template: `
     <div
-      :id="'cell-'+index"
       :class="cellCssClasses"
       @click="onCellClick"
       class="sudoku-cell">
       <span class="sudoku-cell__value">{{value}}</span>
+      <span class="sudoku-cell__guess">{{possibleCellValues | join(' ')}}</span>
     </div>
   `
 };

@@ -1,5 +1,7 @@
 import * as Vuex from 'vuex';
-import { createGame, State, Cell } from './state';
+import { createGame, State } from './state';
+import { Cell } from './core';
+import { getters as rootGetters } from './getters';
 
 export const storeObject: Vuex.StoreOptions<State> = {
   state: createGame([
@@ -17,11 +19,14 @@ export const storeObject: Vuex.StoreOptions<State> = {
   ]),
   actions: {
     handleKeyDown({commit, getters}, e: KeyboardEvent) {
-      console.log('handleKeyDown', e);
+      console.log('handleKeyDown', e.metaKey);
       if (e.metaKey) return;
       e.preventDefault();
-      console.log('e keycode', e.keyCode)
+      console.log('e keycode', e.shiftKey)
       switch(e.keyCode) {
+        case 9: // tab
+          commit(e.shiftKey ? 'left' : 'right');
+          break;
         case 37:
           commit('left');
           break;
@@ -34,33 +39,39 @@ export const storeObject: Vuex.StoreOptions<State> = {
         case 40:
           commit('down');
           break;
-        case 49:
-        case 50:
-        case 51:
-        case 52:
-        case 53:
-        case 54:
-        case 55:
-        case 56:
-        case 57:
+        case 49: // 1
+        case 50: // 2
+        case 51: // 3
+        case 52: // 4
+        case 53: // 5
+        case 54: // 6
+        case 55: // 7
+        case 56: // 8
+        case 57: // 9
           commit('setCellValue', {
             cell: getters.selectedCell,
             value: +e.key
           });
           break;
+        case 8: // backspace
+        case 46: // delete
+          commit('setCellValue', {
+            cell: getters.selectedCell,
+            value: null
+          });
       }
     }
   },
-  getters: {
-    selectedCell({ board: {cursor, cells} }): Cell {
-      return cells.find(cell => cursor.is(cell))!;
-    }
-  },
+  getters: rootGetters,
+  // getters: {
+  //   selectedCell({ board: {cursor, cells} }): Cell {
+  //     return cells.find(cell => cursor.is(cell))!;
+  //   }
+  // },
   mutations: {
     setCellValue(state, {cell, value}: {cell: Cell, value: number}) {
-      if (!cell.locked) {
-        cell.value = value;
-      }
+      if (cell.locked) return;
+      cell.value = cell.value === value ? null : value;
     },
     setCursor: ({ board }, { row, col }) => board.cursor = board.cursor.set(row, col),
     left: ({ board }) => board.cursor = board.cursor.left(),
